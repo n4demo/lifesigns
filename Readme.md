@@ -5,8 +5,8 @@
 # Audience
 Developers, Solution Architects
 
-# Migrating Applications into Docker images
-This code generates real time lifesigns data for consumption via an Azure Event Hub
+# Lifesigns
+This code generates real time lifesigns data for consumption via an Azure Event Hub. It should be run in a docker container.
 
 
 
