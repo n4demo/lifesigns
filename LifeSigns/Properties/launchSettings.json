@@ -1,0 +1,10 @@
+{
+  "profiles": {
+    "LifeSigns": {
+      "commandName": "Project"
+    },
+    "Docker": {
+      "commandName": "Docker"
+    }
+  }
+}
