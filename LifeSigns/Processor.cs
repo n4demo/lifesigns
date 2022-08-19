@@ -26,20 +26,20 @@ namespace LifeSigns
 
             if (second < 16)
             { }
-            else if (second < 31)
+            else if (second < 41)
             {
                 readings.DiaStolic += 20;
                 readings.Systolic += 25;
-                readings.HeartRate += 40;
+                readings.HeartRate += 35;
                 readings.SpO2 += -11;
                 readings.Temperature += 1.8;
             }
-            else if (second < 46)
+            else if (second < 59)
             {
                 readings.DiaStolic += 35;
                 readings.Systolic += 57;
-                readings.HeartRate += 55;
-                readings.SpO2 += -13;
+                readings.HeartRate += 75;
+                readings.SpO2 += -18;
                 readings.Temperature += 3.5;
             }
 
@@ -49,7 +49,7 @@ namespace LifeSigns
             readings.SpO2 += randomDouble;
             readings.Temperature += randomDouble;
 
-            if (readings.SpO2 > 100) readings.SpO2 = 100;
+            if (readings.SpO2 > 99) readings.SpO2 = 99;
 
             return Round(readings);
         }
@@ -57,38 +57,56 @@ namespace LifeSigns
         private Readings Round(Readings readings)
         {
             readings.DiaStolic = Math.Round(readings.DiaStolic, 1);
-            readings.DiaStolic = Math.Round(readings.Systolic, 1);
+            readings.Systolic = Math.Round(readings.Systolic, 1);
             readings.Temperature = Math.Round(readings.Temperature, 2);
             readings.SpO2 = Math.Round(readings.SpO2, 2);
             return readings; 
         }
 
-        public async Task Post()
-        {
-            eventHubConnectionString = ConfigurationManager.AppSettings["eventHubConnectionString"];
+        public async Task SendData()
+        {          
+            var enabledString = ConfigurationManager.AppSettings["enabled"];
 
-            eventHubName = ConfigurationManager.AppSettings["eventHubName"];
+            bool enabled = false;
 
-            eventHubProducerClient = new EventHubProducerClient(eventHubConnectionString, eventHubName);
+            bool.TryParse(enabledString, out enabled);
 
-            eventDataBatch = eventHubProducerClient.CreateBatchAsync();
-
-            while (true)
+            if (enabled)
             {
-                string json = JsonConvert.SerializeObject(GenerateReadings());
+                eventHubConnectionString = ConfigurationManager.AppSettings["eventHubConnectionString"];
 
-                Console.WriteLine(json);
+                eventHubName = ConfigurationManager.AppSettings["eventHubName"];
 
-                var eventData = new EventData(json);
+                eventHubProducerClient = new EventHubProducerClient(eventHubConnectionString, eventHubName);
 
-                if (eventDataBatch.HasValue && !eventDataBatch.Value.Result.TryAdd(eventData))
+                eventDataBatch = eventHubProducerClient.CreateBatchAsync();
+
+                while (true)
                 {
-                    throw new Exception();
+                    var readings = GenerateReadings();
+
+                    string json = JsonConvert.SerializeObject(readings);
+
+                    Console.WriteLine(json);
+
+                    var eventData = new EventData(json);
+
+                    if (eventDataBatch.HasValue && !eventDataBatch.Value.Result.TryAdd(eventData))
+                    {
+                        throw new Exception();
+                    }
+
+                    try
+                    {
+                        await eventHubProducerClient.SendAsync(eventDataBatch.Value.Result);
+                    }
+                    catch (Exception ex)
+                    {
+                        Console.Write(ex.Message);
+                    }
+
+                    Thread.Sleep(90);
                 }
-
-                await eventHubProducerClient.SendAsync(eventDataBatch.Value.Result);
-
-                Thread.Sleep(90);
             }
         }
     }

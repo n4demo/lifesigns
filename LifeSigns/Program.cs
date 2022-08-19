@@ -1,12 +1,19 @@
-﻿namespace LifeSigns // Note: actual namespace depends on the project name.
+﻿namespace LifeSigns
 {
     internal class Program
     {
         static async Task Main(string[] args)
         {
-            var processor = new Processor();
+            try
+            {
+                var processor = new Processor();
 
-            await processor.Post();
+                await processor.SendData();
+            }
+            catch (Exception ex)
+            {
+                Console.Write(ex.Message);
+            }
         }
     }
 }

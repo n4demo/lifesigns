@@ -20,10 +20,10 @@
 
         public Readings()
         {
-            HeartRate = 100;
+            HeartRate = 120;
             Systolic = 130;
             DiaStolic = 80;
-            SpO2 = 99.0;
+            SpO2 = 97.0;
             Temperature = 37.5;
             When = DateTime.Now;
             Who = "Jim Jones";
