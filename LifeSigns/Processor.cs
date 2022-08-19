@@ -105,7 +105,7 @@ namespace LifeSigns
                         Console.Write(ex.Message);
                     }
 
-                    Thread.Sleep(90);
+                    Thread.Sleep(900);
                 }
             }
         }
