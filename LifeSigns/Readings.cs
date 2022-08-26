@@ -20,7 +20,7 @@
 
         public Readings()
         {
-            HeartRate = 70;
+            HeartRate = 110;
             SpO2 = 97;
             Temperature = 37;
             When = DateTime.Now;

@@ -19,23 +19,9 @@ namespace LifeSigns
         {
             var random = new Random();
 
-            if (DateTime.Now.Minute < 21)
-            {
-                readings.HeartRate += 25;
-                readings.SpO2 += -5;
-                readings.Temperature = readings.Temperature + new Decimal(1.2);
-            }
-            else if (DateTime.Now.Minute < 59)
-            {
-                readings.HeartRate += -30;
-                readings.SpO2 += 5;
-                readings.Temperature = readings.Temperature - new Decimal(3.5);
-            }
-
-
-            readings.HeartRate += random.Next(0, 40) - 25;
-            readings.SpO2 += random.Next(0, 40) - 20;
-            readings.Temperature += new Decimal(random.NextDouble() - 0.5);
+            readings.HeartRate += random.Next(0, 20) - 10;
+            readings.SpO2 += random.Next(0, 20) - 10;
+            readings.Temperature = readings.Temperature + new Decimal(random.NextDouble() - 0.5);
 
             if (readings.SpO2 > 99) readings.SpO2 = 99;
 
@@ -46,12 +32,13 @@ namespace LifeSigns
 
         private void GetBloodPressure(Random random, Readings readings)
         {
-            if (DateTime.Now.Minute % 20 == 0)
+            readings.Systolic = 130;
+            readings.DiaStolic = 85;
+
+            if (DateTime.Now.Minute % 2 == 0)
             {
-                readings.Systolic = 130;
-                readings.DiaStolic = 80;
-                readings.DiaStolic += random.Next(0, 40) - 20;
-                readings.Systolic += random.Next(0, 40) - 20; 
+                readings.Systolic += random.Next(0, 30) - 15; ;
+                readings.DiaStolic += random.Next(0, 20) - 10; ;
             }
         }
 
