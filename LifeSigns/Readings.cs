@@ -10,21 +10,19 @@
 
         public int HeartRate { get; set; }
 
-        public double Systolic { get; set; }
+        public decimal? Systolic { get; set; }
 
-        public double DiaStolic { get; set; }
+        public decimal? DiaStolic { get; set; }
 
-        public double SpO2 { get; set; }
+        public decimal SpO2 { get; set; }
 
-        public double Temperature { get; set; }
+        public decimal Temperature { get; set; }
 
         public Readings()
         {
             HeartRate = 120;
-            Systolic = 130;
-            DiaStolic = 80;
-            SpO2 = 97.0;
-            Temperature = 37.5;
+            SpO2 = 97;
+            Temperature = 37;
             When = DateTime.Now;
             Who = "Jim Jones";
             Id = Guid.NewGuid().ToString();

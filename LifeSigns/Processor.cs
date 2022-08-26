@@ -19,45 +19,50 @@ namespace LifeSigns
         {
             var readings = new Readings();
             var random = new Random();
-            int randomInt = random.Next(0,40) - 20;
-            double randomDouble = random.NextDouble() - 0.5;
 
-            int minute = DateTime.Now.Minute;
-
-            if (minute < 16)
-            { }
-            else if (minute < 41)
+            if (DateTime.Now.Minute < 41)
             {
-                readings.DiaStolic += 20;
-                readings.Systolic += 25;
                 readings.HeartRate += 35;
                 readings.SpO2 += -5;
-                readings.Temperature += 1.8;
+                readings.Temperature = readings.Temperature + new Decimal(1.2);
             }
-            else if (minute < 59)
+            else if (DateTime.Now.Minute < 59)
             {
-                readings.DiaStolic += 35;
-                readings.Systolic += 57;
                 readings.HeartRate += 75;
                 readings.SpO2 += -11;
-                readings.Temperature += 3.5;
+                readings.Temperature = readings.Temperature + new Decimal(3.5);
             }
 
-            readings.DiaStolic += randomInt;
-            readings.Systolic += randomInt;
-            readings.HeartRate += randomInt;
-            readings.SpO2 += randomInt;
-            readings.Temperature += randomDouble;
+            readings.HeartRate += random.Next(0, 40) - 20;
+            readings.SpO2 += random.Next(0, 40) - 20;
+            readings.Temperature += new Decimal(random.NextDouble() - 0.5);
 
             if (readings.SpO2 > 99) readings.SpO2 = 99;
+
+            GetBloodPressure(random, readings);
 
             return Round(readings);
         }
 
+        private void GetBloodPressure(Random random, Readings readings)
+        {
+            if (DateTime.Now.Minute % 20 == 0)
+            {
+                readings.Systolic = 130;
+                readings.DiaStolic = 80;
+                readings.DiaStolic += random.Next(0, 40) - 20;
+                readings.Systolic += random.Next(0, 40) - 20; 
+            }
+        }
+
         private Readings Round(Readings readings)
         {
-            readings.DiaStolic = Math.Round(readings.DiaStolic, 1);
-            readings.Systolic = Math.Round(readings.Systolic, 1);
+            if (readings.DiaStolic.HasValue && readings.Systolic.HasValue)
+            {
+                readings.DiaStolic = Math.Round(readings.DiaStolic.Value, 1);
+                readings.Systolic = Math.Round(readings.Systolic.Value, 1);
+            }
+
             readings.Temperature = Math.Round(readings.Temperature, 2);
             readings.SpO2 = Math.Round(readings.SpO2, 2);
             return readings; 
