@@ -15,25 +15,25 @@ namespace LifeSigns
 
         private ValueTask<EventDataBatch>? eventDataBatch;
 
-        private Readings GenerateReadings()
+        private Readings GenerateReadings(Readings readings)
         {
-            var readings = new Readings();
             var random = new Random();
 
-            if (DateTime.Now.Minute < 41)
+            if (DateTime.Now.Minute < 21)
             {
-                readings.HeartRate += 35;
+                readings.HeartRate += 25;
                 readings.SpO2 += -5;
                 readings.Temperature = readings.Temperature + new Decimal(1.2);
             }
             else if (DateTime.Now.Minute < 59)
             {
-                readings.HeartRate += 75;
-                readings.SpO2 += -11;
-                readings.Temperature = readings.Temperature + new Decimal(3.5);
+                readings.HeartRate += -30;
+                readings.SpO2 += 5;
+                readings.Temperature = readings.Temperature - new Decimal(3.5);
             }
 
-            readings.HeartRate += random.Next(0, 40) - 20;
+
+            readings.HeartRate += random.Next(0, 40) - 25;
             readings.SpO2 += random.Next(0, 40) - 20;
             readings.Temperature += new Decimal(random.NextDouble() - 0.5);
 
@@ -86,9 +86,11 @@ namespace LifeSigns
 
                 eventDataBatch = eventHubProducerClient.CreateBatchAsync();
 
+                var r = new Readings();
+
                 while (true)
                 {
-                    var readings = GenerateReadings();
+                    var readings = GenerateReadings(r);
 
                     string json = JsonConvert.SerializeObject(readings);
 
@@ -110,7 +112,7 @@ namespace LifeSigns
                         Console.Write(ex.Message);
                     }
 
-                    Thread.Sleep(900);
+                    Thread.Sleep(10000);
                 }
             }
         }
