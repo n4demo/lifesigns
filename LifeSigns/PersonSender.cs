@@ -1,5 +1,6 @@
 ﻿using Azure.Messaging.EventHubs;
 using Azure.Messaging.EventHubs.Producer;
+using Microsoft.Extensions.Configuration;
 using Newtonsoft.Json;
 using System.Configuration;
 
@@ -7,19 +8,48 @@ namespace LifeSigns
 {
     internal class PersonSender
     {
-        public void SendData()
+        private ICosmosDbService _cosmosDbService = null;
+
+
+        public async Task InitSendData()
         {          
-            var enabledString = ConfigurationManager.AppSettings["enabled"];
+            string databaseName = ConfigurationManager.AppSettings["DatabaseName"];
 
-            bool enabled = false;
+            string containerName = ConfigurationManager.AppSettings["ContainerName"];
 
-            bool.TryParse(enabledString, out enabled);
+            string account = ConfigurationManager.AppSettings["Account"];
 
-            if (enabled)
-            {
-                var personDetails = GetPersonDetails();
-            }
+            string key = ConfigurationManager.AppSettings["Key"];
+
+            Microsoft.Azure.Cosmos.CosmosClient client = new Microsoft.Azure.Cosmos.CosmosClient(account, key);
+
+            _cosmosDbService = new CosmosDbService(client, databaseName, containerName);
+
+            Microsoft.Azure.Cosmos.DatabaseResponse database = await client.CreateDatabaseIfNotExistsAsync(databaseName);
+
+            await database.Database.CreateContainerIfNotExistsAsync(containerName, "/id");
         }
+
+        public async Task SendData()
+        {
+            await InitSendData();
+
+            var personDetails = GetPersonDetails();
+        }
+
+        //private static async Task<CosmosDbService> InitializeCosmosClientInstanceAsync(IConfigurationSection configurationSection)
+        //{
+        //    string databaseName = configurationSection.GetSection("DatabaseName").Value;
+        //    string containerName = configurationSection.GetSection("ContainerName").Value;
+        //    string account = configurationSection.GetSection("Account").Value;
+        //    string key = configurationSection.GetSection("Key").Value;
+        //    Microsoft.Azure.Cosmos.CosmosClient client = new Microsoft.Azure.Cosmos.CosmosClient(account, key);
+        //    CosmosDbService cosmosDbService = new CosmosDbService(client, databaseName, containerName);
+        //    Microsoft.Azure.Cosmos.DatabaseResponse database = await client.CreateDatabaseIfNotExistsAsync(databaseName);
+        //    await database.Database.CreateContainerIfNotExistsAsync(containerName, "/id");
+
+        //    return cosmosDbService;
+        //}
 
         private PersonDetails GetPersonDetails()
         {
