@@ -5,7 +5,7 @@ using System.Configuration;
 
 namespace LifeSigns
 {
-    internal class Processor
+    internal class LifesignsSender
     {
         private string? eventHubConnectionString;
 

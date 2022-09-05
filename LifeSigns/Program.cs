@@ -6,9 +6,9 @@
         {
             try
             {
-                var processor = new Processor();
+                var lifesignsSender = new LifesignsSender();
 
-                await processor.SendData();
+                await lifesignsSender.SendData();
             }
             catch (Exception ex)
             {
