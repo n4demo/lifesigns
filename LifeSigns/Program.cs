@@ -6,11 +6,15 @@
         {
             try
             {
-                await new LifesignsSender().SendThomasAndersonLifeSigns();
+                //await new LifesignsSender().SendThomasAndersonLifeSigns();
 
-                await new PersonSender().SaveThomasAnderson();
+                var personSender = new PersonSender();
 
-                await new PersonSender().SaveRandomPerson();
+                await personSender.InitCosmosDB();
+
+                await personSender.SaveThomasAnderson();
+
+                //await new PersonSender().SaveRandomPerson();
             }
             catch (Exception ex)
             {

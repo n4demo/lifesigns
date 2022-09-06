@@ -2,7 +2,7 @@
 
 namespace LifeSigns
 {
-    public class PersonDetails
+    public class Person
     {
         [JsonProperty(PropertyName = "id")]
         public string? Id { get; set; }
@@ -17,16 +17,16 @@ namespace LifeSigns
         public List<Address> Addresses { get; set; }
 
         [JsonProperty(PropertyName = "contactDetails")]
-        public List<ContactDetails> ContactDetails { get; set; }
+        public List<ContactDetail> ContactDetails { get; set; }
 
         [JsonProperty(PropertyName = "logins")]
         public List<Login> Logins { get; set; }
 
-        public PersonDetails()
+        public Person()
         {
             Addresses = new List<Address>();
 
-            ContactDetails = new List<ContactDetails>();
+            ContactDetails = new List<ContactDetail>();
 
             Logins = new List<Login>();
         }
@@ -56,7 +56,7 @@ namespace LifeSigns
         public string? Zip { get; set; }
     }
 
-    public class ContactDetails
+    public class ContactDetail
     {
         [JsonProperty(PropertyName = "email")]
         public string? Email { get; set; }

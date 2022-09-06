@@ -5,13 +5,11 @@ namespace LifeSigns
 {
     internal class PersonSender
     {
-        //private ICosmosDbService _cosmosDbService = null;
-
-        Microsoft.Azure.Cosmos.CosmosClient? _client;
+        CosmosClient? _client;
 
         private Container? _container;
 
-        public async Task InitSendData()
+        public async Task InitCosmosDB()
         {          
             string? databaseName = ConfigurationManager.AppSettings["DatabaseName"];
 
@@ -23,9 +21,7 @@ namespace LifeSigns
 
              _client = new CosmosClient(account, key);
 
-            //_cosmosDbService = new CosmosDbService(_client, databaseName, containerName);
-
-            Microsoft.Azure.Cosmos.DatabaseResponse database = await _client.CreateDatabaseIfNotExistsAsync(databaseName);
+            DatabaseResponse database = await _client.CreateDatabaseIfNotExistsAsync(databaseName);
 
             await database.Database.CreateContainerIfNotExistsAsync(containerName, "/id");
 
@@ -42,14 +38,14 @@ namespace LifeSigns
             await SavePerson(GetRandomPersonDetails());
         }
 
-        private async Task SavePerson(PersonDetails personDetails)
+        private async Task SavePerson(Person personDetails)
         {
-            await _container.CreateItemAsync<PersonDetails>(personDetails, new PartitionKey(personDetails.Id));
+            await _container.CreateItemAsync<Person>(personDetails, new PartitionKey(personDetails.Id));
         }
 
-        private PersonDetails GetThomasDetails()
+        private Person GetThomasDetails()
         {
-            PersonDetails personDetails = new PersonDetails
+            Person personDetails = new Person
             {
                 Id = "eyAQX05sz*6y8osoh&Ib#&6hD#F",
                 Firstname = "Thomas",
@@ -69,7 +65,7 @@ namespace LifeSigns
 
             personDetails.ContactDetails.Add
                 (
-                    new ContactDetails
+                    new ContactDetail
                     {
                         Email = "thomas@andersen.com",
                         Phone = "+1 555 555-5555",
@@ -89,9 +85,9 @@ namespace LifeSigns
             return personDetails;
         }
 
-        private PersonDetails GetRandomPersonDetails()
+        private Person GetRandomPersonDetails()
         {                      
-            PersonDetails personDetails = new PersonDetails
+            Person personDetails = new Person
                 {
                     Id = RandomString(),
                     Firstname = $"{RandomString()}",
@@ -111,7 +107,7 @@ namespace LifeSigns
 
             personDetails.ContactDetails.Add
                 (
-                    new ContactDetails
+                    new ContactDetail
                     {
                         Email = $"{RandomString()}@acme.com",
                         Phone = "+1 555 555-5555",
