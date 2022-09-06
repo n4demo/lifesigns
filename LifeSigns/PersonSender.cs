@@ -51,21 +51,38 @@ namespace LifeSigns
         //    return cosmosDbService;
         //}
 
+        private static Random random = new Random();
+
+        public static string RandomString()
+        {
+            return RandomString(10);
+        }
+
+        public static string RandomString(int length)
+        {
+            const string chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+            return new string(Enumerable.Repeat(chars, length)
+                .Select(s => s[random.Next(s.Length)]).ToArray());
+        }
+
         private PersonDetails GetPersonDetails()
         {
+            //var random = new Random();
+            //var myint = random.Next(11111, 99999);
+            
             Thread.Sleep(1100);
             
             PersonDetails personDetails = new PersonDetails
                 {
                     Id = "eyAQX05sz*6y8osoh&Ib#&6hD#F",
-                    Firstname = "Thomas",
-                    LastName = "AnderSon"
-                };
+                    Firstname = $"{RandomString()}",
+                    LastName = $"{RandomString()}"
+            };
 
             personDetails.Addresses.Add(
                 new Address
                 {
-                    Line1 = "100 Some Street",
+                    Line1 = $"{RandomString()} Some Street",
                     Line2 = "Unit 1",
                     City = "Seattle",
                     State = "WA",
