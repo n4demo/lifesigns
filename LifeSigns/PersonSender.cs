@@ -15,11 +15,11 @@ namespace LifeSigns
 
             string? containerName = ConfigurationManager.AppSettings["ContainerName"];
 
-            string? account = ConfigurationManager.AppSettings["Account"];
+            string? accountEndpoint = ConfigurationManager.AppSettings["AccountEndpoint"];
 
             string? key = ConfigurationManager.AppSettings["Key"];
 
-             _client = new CosmosClient(account, key);
+             _client = new CosmosClient(accountEndpoint, key);
 
             DatabaseResponse database = await _client.CreateDatabaseIfNotExistsAsync(databaseName);
 
@@ -40,14 +40,34 @@ namespace LifeSigns
 
         private async Task SavePerson(Person personDetails)
         {
-            await _container.CreateItemAsync<Person>(personDetails, new PartitionKey(personDetails.Id));
+            var ticks = DateTime.Now.Ticks.ToString();
+            
+            Console.WriteLine($"saving {personDetails.Firstname} at {ticks}");
+
+            try
+            {
+                var response = await _container.ReadItemAsync<Person>(personDetails.Id, new PartitionKey(personDetails.Id));
+
+                if (response != null)
+                {
+                    var thomas = (Person)response.Resource;
+
+                    thomas.Logins.Add(new Login { When = ticks });
+
+                    await _container.UpsertItemAsync<Person>(personDetails, new PartitionKey(personDetails.Id));
+                }
+            }
+            catch (Exception)
+            {
+                await _container.CreateItemAsync<Person>(personDetails, new PartitionKey(personDetails.Id));
+            }
         }
 
         private Person GetThomasDetails()
         {
             Person personDetails = new Person
             {
-                Id = "eyAQX05sz*6y8osoh&Ib#&6hD#F",
+                Id = "1234567890",
                 Firstname = "Thomas",
                 LastName = "AnderSon"
             };
@@ -78,7 +98,7 @@ namespace LifeSigns
                 (
                     new Login
                     {
-                        When = DateTime.Now.ToLongDateString()
+                        When = DateTime.Now.Ticks.ToString()
                     }
                 );
 
