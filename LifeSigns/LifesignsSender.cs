@@ -68,7 +68,7 @@ namespace LifeSigns
             return readings; 
         }
 
-        public async Task SendData()
+        public async Task SendThomasAndersonLifeSigns()
         {          
             var enabledString = ConfigurationManager.AppSettings["enabled"];
 
