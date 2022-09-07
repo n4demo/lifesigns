@@ -6,29 +6,42 @@
         {
             try
             {
-                var lifesignsPublisher = new LifesignsPublisher();
+                await PublishPerson();
 
+                //await PublishLPersonSifeSigns();
 
-                await lifesignsPublisher.PublishThomasAndersonLifeSigns();
-
-                var personPublisher = new PersonPublisher();
-
-                personPublisher.Init();
-
-                await personPublisher.PublishThomasAnderson();
-
-                for (int i = 0; i < 100; i++)
-                {
-                    await personPublisher.PublishThomasAnderson();
-                }
-
-
-                await personPublisher.PublishRandomPerson();
             }
             catch (Exception ex)
             {
                 Console.Write(ex.Message);
             }
+        }
+
+        static async Task PublishLPersonSifeSigns()
+        {
+            var lifesignsPublisher = new LifesignsPublisher();
+
+
+            await lifesignsPublisher.PublishThomasAndersonLifeSigns();
+
+
+            await PublishPerson();
+        }
+
+       static async Task PublishPerson()
+        {
+            var personPublisher = new PersonPublisher();
+
+            personPublisher.Init();
+
+            await personPublisher.PublishThomasAnderson();
+
+            for (int i = 0; i < 100; i++)
+            {
+                await personPublisher.PublishThomasAnderson();
+            }
+
+            await personPublisher.PublishRandomPerson();
         }
     }
 }
