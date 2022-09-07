@@ -39,24 +39,20 @@ namespace LifeSigns
 
             try
             {
-                person.Logins.Add(new Login { When = ticks });
+                var response = cosmosDbRepository.ReadItemAsync(person.Id);
 
-                await cosmosDbRepository.UpsertItemAsync(person);
+                if (response != null && response.IsCompletedSuccessfully)
+                {
+                    var thomas = response.Result;
 
-                ////var response = cosmosDbRepository.ReadItemAsync(person.Id);
+                    thomas.Logins.Add(new Login { When = ticks });
 
-                //if (response != null && response.IsCompletedSuccessfully)
-                //{
-                //    var thomas = response.Result;
-
-                //    thomas.Logins.Add(new Login { When = ticks });
-
-                //    await cosmosDbRepository.UpsertItemAsync(thomas);
-                //}
-                //else
-                //{
-                //    await cosmosDbRepository.UpsertItemAsync(person);
-                //}
+                    await cosmosDbRepository.UpsertItemAsync(thomas);
+                }
+                else
+                {
+                    await cosmosDbRepository.UpsertItemAsync(person);
+                }
             }
             catch (Exception)
             {
