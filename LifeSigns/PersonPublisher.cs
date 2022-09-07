@@ -44,13 +44,13 @@ namespace LifeSigns
 
                 if (currentPerson != null)
                 {
-                    currentPerson.Readings.Add(new LifesignsReadings { Id = currentPerson.Id });
+                    currentPerson.Readings.Add(new LifesignsReadings { Id = currentPerson.Id, Systolic = 120, DiaStolic = 80 });
 
                     await cosmosDbRepository.UpsertItemAsync(currentPerson);
                 }
                 else
                 {
-                    person.Readings.Add(new LifesignsReadings { Id = person.Id });
+                    person.Readings.Add(new LifesignsReadings { Id = person.Id, , Systolic = 120, DiaStolic = 80 });
 
                     await cosmosDbRepository.UpsertItemAsync(person);
                 }
