@@ -12,9 +12,15 @@
 
                 await personSender.Init();
 
-                await personSender.SaveThomasAnderson();
+                //await personSender.SaveThomasAnderson();
 
-                //await new PersonSender().SaveRandomPerson();
+                //for (int i = 0; i < 100; i++)
+                //{
+                //    await personSender.SaveThomasAnderson();
+                //}
+
+
+                personSender.SaveRandomPerson();
             }
             catch (Exception ex)
             {

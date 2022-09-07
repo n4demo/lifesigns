@@ -39,20 +39,28 @@ namespace LifeSigns
 
             try
             {
-                var response = cosmosDbRepository.ReadItemAsync(person.Id);
+                person.Logins.Add(new Login { When = ticks });
 
-                if (response != null)
-                {
-                    var thomas = (Person)response.Result;
+                await cosmosDbRepository.UpsertItemAsync(person);
 
-                    thomas.Logins.Add(new Login { When = ticks });
+                ////var response = cosmosDbRepository.ReadItemAsync(person.Id);
 
-                    await cosmosDbRepository.UpsertItemAsync(thomas);
-                }
+                //if (response != null && response.IsCompletedSuccessfully)
+                //{
+                //    var thomas = response.Result;
+
+                //    thomas.Logins.Add(new Login { When = ticks });
+
+                //    await cosmosDbRepository.UpsertItemAsync(thomas);
+                //}
+                //else
+                //{
+                //    await cosmosDbRepository.UpsertItemAsync(person);
+                //}
             }
             catch (Exception)
             {
-                await cosmosDbRepository.UpsertItemAsync(person);
+                throw;
             }
         }
 
@@ -100,14 +108,14 @@ namespace LifeSigns
 
         private Person GetRandomPersonDetails()
         {                      
-            Person personDetails = new Person
+            Person person = new Person
                 {
                     Id = RandomString(),
                     Firstname = $"{RandomString()}",
                     LastName = $"{RandomString()}"
             };
 
-            personDetails.Addresses.Add(
+            person.Addresses.Add(
                 new Address
                 {
                     Line1 = $"{RandomString()} Some Street",
@@ -118,7 +126,7 @@ namespace LifeSigns
                 }
             );
 
-            personDetails.ContactDetails.Add
+            person.ContactDetails.Add
                 (
                     new ContactDetail
                     {
@@ -129,12 +137,12 @@ namespace LifeSigns
                     }
                 );
 
-            personDetails.Logins.Add
+            person.Logins.Add
                 (
                     new Login { When = DateTime.Now.ToLongDateString() }
                 );
 
-            return personDetails;
+            return person;
         }
 
         private static Random random = new Random();
@@ -147,8 +155,11 @@ namespace LifeSigns
         private static string RandomString(int length)
         {
             const string chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
-            return new string(Enumerable.Repeat(chars, length)
+
+            var mystring = new string(Enumerable.Repeat(chars, length)
                 .Select(s => s[random.Next(s.Length)]).ToArray());
+
+            return mystring.ToLower();
         }
     }
 }

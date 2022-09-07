@@ -24,13 +24,13 @@ namespace LifeSigns
 
         public CosmosDbRepository()
         {
-            databaseName = ConfigurationManager.AppSettings["DatabaseName"];
+            databaseName = ConfigurationManager.AppSettings["databaseName"];
 
-            containerName = ConfigurationManager.AppSettings["ContainerName"];
+            containerName = ConfigurationManager.AppSettings["containername"];
 
-            accountEndpoint = ConfigurationManager.AppSettings["AccountEndpoint"];
+            accountEndpoint = ConfigurationManager.AppSettings["accountendpoint"];
 
-            key = ConfigurationManager.AppSettings["Key"];
+            key = ConfigurationManager.AppSettings["key"];
 
             client = new CosmosClient(accountEndpoint, key);
         }
