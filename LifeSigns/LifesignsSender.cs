@@ -11,9 +11,28 @@ namespace LifeSigns
 
         private string? eventHubName;
 
+        private PersonGenerator personGenerator;
+
         private EventHubProducerClient? eventHubProducerClient;
 
         private ValueTask<EventDataBatch>? eventDataBatch;
+
+        private bool enabled;
+
+        public LifesignsSender()
+        {
+            var enabledString = ConfigurationManager.AppSettings["enabled"];
+
+            bool.TryParse(enabledString, out enabled);
+
+            personGenerator = new PersonGenerator();
+
+            eventHubConnectionString = ConfigurationManager.AppSettings["eventHubConnectionString"];
+
+            eventHubName = ConfigurationManager.AppSettings["eventHubName"];
+
+            eventHubProducerClient = new EventHubProducerClient(eventHubConnectionString, eventHubName);
+        }
 
         private Readings GenerateReadings(Readings readings)
         {
@@ -70,27 +89,17 @@ namespace LifeSigns
 
         public async Task SendThomasAndersonLifeSigns()
         {          
-            var enabledString = ConfigurationManager.AppSettings["enabled"];
-
-            bool enabled = false;
-
-            bool.TryParse(enabledString, out enabled);
-
             if (enabled)
             {
-                eventHubConnectionString = ConfigurationManager.AppSettings["eventHubConnectionString"];
-
-                eventHubName = ConfigurationManager.AppSettings["eventHubName"];
-
-                eventHubProducerClient = new EventHubProducerClient(eventHubConnectionString, eventHubName);
-
                 eventDataBatch = eventHubProducerClient.CreateBatchAsync();
 
-                var r = new Readings();
+                var readings = new Readings();
 
                 while (true)
                 {
-                    var readings = GenerateReadings(r);
+                    readings = GenerateReadings(readings);
+
+                    readings.Id = personGenerator.GetThomas().Id;
 
                     string json = JsonConvert.SerializeObject(readings);
 

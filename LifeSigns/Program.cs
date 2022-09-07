@@ -6,11 +6,11 @@
         {
             try
             {
-                //await new LifesignsSender().SendThomasAndersonLifeSigns();
+                await new LifesignsSender().SendThomasAndersonLifeSigns();
 
                 var personSender = new PersonSender();
 
-                await personSender.Init();
+                personSender.Init();
 
                 await personSender.SaveThomasAnderson();
 
@@ -20,7 +20,7 @@
                 }
 
 
-                personSender.SaveRandomPerson();
+                await personSender.SaveRandomPerson();
             }
             catch (Exception ex)
             {

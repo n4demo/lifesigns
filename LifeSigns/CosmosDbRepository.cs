@@ -36,7 +36,7 @@ namespace LifeSigns
         }
 
 
-        public async Task Init()
+        public void Init()
         {
             //DatabaseResponse database = await client.CreateDatabaseIfNotExistsAsync(databaseName);
 
@@ -47,9 +47,9 @@ namespace LifeSigns
             return;
         }
 
-        public Task UpsertItemAsync(Person person)
+        public  async Task UpsertItemAsync(Person person)
         {
-            return Container.UpsertItemAsync<Person>(person, new PartitionKey(person.Id));
+            await Container.UpsertItemAsync<Person>(person, new PartitionKey(person.Id));
         }
 
         public async Task<Person> ReadItemAsync(string id)
