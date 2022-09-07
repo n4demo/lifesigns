@@ -16,9 +16,9 @@ namespace LifeSigns
             cosmosDbRepository = new CosmosDbRepository();
         }
 
-        public void Init()
+        public async Task Init()
         {
-           cosmosDbRepository.Init();
+           await cosmosDbRepository.Init();
         }
 
         public async Task PublishThomasAnderson

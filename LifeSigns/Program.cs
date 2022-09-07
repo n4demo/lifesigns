@@ -32,7 +32,7 @@
         {
             var personPublisher = new PersonPublisher();
 
-            personPublisher.Init();
+            await personPublisher.Init();
 
             await personPublisher.PublishThomasAnderson();
 

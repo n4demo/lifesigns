@@ -37,11 +37,11 @@ namespace LifeSigns.Repos
         }
 
 
-        public void Init()
+        public async Task Init()
         {
-            //DatabaseResponse database = await client.CreateDatabaseIfNotExistsAsync(databaseName);
+            DatabaseResponse database = await client.CreateDatabaseIfNotExistsAsync(databaseName);
 
-            //await database.Database.CreateContainerIfNotExistsAsync(containerName, "/id");
+            await database.Database.CreateContainerIfNotExistsAsync(containerName, "/id");
 
             Container = client.GetContainer(databaseName, containerName);
 
