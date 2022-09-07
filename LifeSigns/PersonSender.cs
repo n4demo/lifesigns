@@ -39,12 +39,10 @@ namespace LifeSigns
 
             try
             {
-                var response = cosmosDbRepository.ReadItemAsync(person.Id);
+                var thomas = await cosmosDbRepository.ReadItemAsync(person.Id);
 
-                if (response != null && response.IsCompletedSuccessfully)
+                if (thomas != null)
                 {
-                    var thomas = response.Result;
-
                     thomas.Logins.Add(new Login { When = ticks });
 
                     await cosmosDbRepository.UpsertItemAsync(thomas);
