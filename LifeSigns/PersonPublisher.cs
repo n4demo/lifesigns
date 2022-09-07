@@ -27,8 +27,7 @@ namespace LifeSigns
             await SavePerson(personGenerator.GetThomas());
         }
 
-        public async Task PublishRandomPerson
-            ()
+        public async Task PublishRandomPerson()
         {
             await SavePerson(personGenerator.GetRandomPerson());
         }
@@ -51,6 +50,8 @@ namespace LifeSigns
                 }
                 else
                 {
+                    person.Readings.Add(new LifesignsReadings { Id = person.Id });
+
                     await cosmosDbRepository.UpsertItemAsync(person);
                 }
             }
