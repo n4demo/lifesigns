@@ -6,7 +6,10 @@
         {
             try
             {
-                await new LifesignsPublisher().SendThomasAndersonLifeSigns();
+                var lifesignsPublisher = new LifesignsPublisher();
+
+
+                await lifesignsPublisher.PublishThomasAndersonLifeSigns();
 
                 var personPublisher = new PersonPublisher();
 

@@ -20,7 +20,7 @@ namespace LifeSigns.Model
         public List<ContactDetail> ContactDetails { get; set; }
 
         [JsonProperty(PropertyName = "readings")]
-        public List<Readings> Readings { get; set; }
+        public List<LifesignsReadings> Readings { get; set; }
 
         public Person()
         {
@@ -28,7 +28,7 @@ namespace LifeSigns.Model
 
             ContactDetails = new List<ContactDetail>();
 
-            Readings = new List<Readings>();
+            Readings = new List<LifesignsReadings>();
         }
     }
 

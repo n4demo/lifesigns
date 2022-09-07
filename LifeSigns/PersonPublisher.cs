@@ -45,7 +45,7 @@ namespace LifeSigns
 
                 if (currentPerson != null)
                 {
-                    currentPerson.Readings.Add(new Readings { Id = currentPerson.Id });
+                    currentPerson.Readings.Add(new LifesignsReadings { Id = currentPerson.Id });
 
                     await cosmosDbRepository.UpsertItemAsync(currentPerson);
                 }

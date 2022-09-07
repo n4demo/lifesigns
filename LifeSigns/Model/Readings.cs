@@ -2,7 +2,7 @@
 
 namespace LifeSigns
 {
-    public class Readings
+    public class LifesignsReadings
     {
         [JsonProperty(PropertyName = "when")]
         public DateTime When { get; set; }
@@ -25,7 +25,7 @@ namespace LifeSigns
         [JsonProperty(PropertyName = "temperature")]
         public decimal Temperature { get; set; }
 
-        public Readings()
+        public LifesignsReadings()
         {
             HeartRate = 110;
             SpO2 = 97;

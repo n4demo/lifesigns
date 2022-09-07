@@ -34,66 +34,66 @@ namespace LifeSigns
             eventHubProducerClient = new EventHubProducerClient(eventHubConnectionString, eventHubName);
         }
 
-        private Readings GenerateReadings(Readings readings)
+        private LifesignsReadings GenerateReadings(LifesignsReadings lifesignsreadings)
         {
             var random = new Random();
 
-            if (readings.HeartRate < 60 || readings.HeartRate > 170)
+            if (lifesignsreadings.HeartRate < 60 || lifesignsreadings.HeartRate > 170)
             {
-                readings.HeartRate = 100;
+                lifesignsreadings.HeartRate = 100;
             }
 
-            readings.HeartRate += random.Next(0, 20) - 10;
+            lifesignsreadings.HeartRate += random.Next(0, 20) - 10;
 
-            if (readings.SpO2 > 99 || readings.SpO2 < 60)
+            if (lifesignsreadings.SpO2 > 99 || lifesignsreadings.SpO2 < 60)
             {
-                readings.SpO2 = 99;
+                lifesignsreadings.SpO2 = 99;
             }
 
-            readings.SpO2 += random.Next(0, 20) - 10;
+            lifesignsreadings.SpO2 += random.Next(0, 20) - 10;
 
-            if (readings.Temperature > 41 || readings.Temperature < 34)
+            if (lifesignsreadings.Temperature > 41 || lifesignsreadings.Temperature < 34)
             {
-                readings.Temperature = 37;
+                lifesignsreadings.Temperature = 37;
             }
 
-            readings.Temperature = readings.Temperature + new Decimal(random.NextDouble() - 0.5);
+            lifesignsreadings.Temperature = lifesignsreadings.Temperature + new Decimal(random.NextDouble() - 0.5);
 
             
-            GetBloodPressure(random, readings);
+            GetBloodPressure(random, lifesignsreadings);
 
-            return Round(readings);
+            return Round(lifesignsreadings);
         }
 
-        private void GetBloodPressure(Random random, Readings readings)
+        private void GetBloodPressure(Random random, LifesignsReadings lifesignsreadings)
         {
-            readings.Systolic = 130;
-            readings.DiaStolic = 85;
+            lifesignsreadings.Systolic = 130;
+            lifesignsreadings.DiaStolic = 85;
 
-            readings.Systolic += random.Next(0, 30) - 15; ;
-            readings.DiaStolic += random.Next(0, 20) - 10; ;
+            lifesignsreadings.Systolic += random.Next(0, 30) - 15; ;
+            lifesignsreadings.DiaStolic += random.Next(0, 20) - 10; ;
         }
 
-        private Readings Round(Readings readings)
+        private LifesignsReadings Round(LifesignsReadings lifesignsreadings)
         {
-            if (readings.DiaStolic.HasValue && readings.Systolic.HasValue)
+            if (lifesignsreadings.DiaStolic.HasValue && lifesignsreadings.Systolic.HasValue)
             {
-                readings.DiaStolic = Math.Round(readings.DiaStolic.Value, 1);
-                readings.Systolic = Math.Round(readings.Systolic.Value, 1);
+                lifesignsreadings.DiaStolic = Math.Round(lifesignsreadings.DiaStolic.Value, 1);
+                lifesignsreadings.Systolic = Math.Round(lifesignsreadings.Systolic.Value, 1);
             }
 
-            readings.Temperature = Math.Round(readings.Temperature, 2);
-            readings.SpO2 = Math.Round(readings.SpO2, 2);
-            return readings; 
+            lifesignsreadings.Temperature = Math.Round(lifesignsreadings.Temperature, 2);
+            lifesignsreadings.SpO2 = Math.Round(lifesignsreadings.SpO2, 2);
+            return lifesignsreadings; 
         }
 
-        public async Task SendThomasAndersonLifeSigns()
+        public async Task PublishThomasAndersonLifeSigns()
         {          
             if (enabled)
             {
                 eventDataBatch = eventHubProducerClient.CreateBatchAsync();
 
-                var readings = new Readings();
+                var readings = new LifesignsReadings();
 
                 while (true)
                 {
