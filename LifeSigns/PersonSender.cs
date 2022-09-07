@@ -5,27 +5,20 @@ namespace LifeSigns
 {
     internal class PersonSender
     {
-        CosmosClient? _client;
+        private CosmosDbRepository? cosmosDbRepository;
 
-        private Container? _container;
+        public PersonSender()
+        {
 
-        public async Task InitCosmosDB()
-        {          
-            string? databaseName = ConfigurationManager.AppSettings["DatabaseName"];
+        }
 
-            string? containerName = ConfigurationManager.AppSettings["ContainerName"];
+        public async Task Init()
+        {
+            cosmosDbRepository = new CosmosDbRepository();
 
-            string? accountEndpoint = ConfigurationManager.AppSettings["AccountEndpoint"];
+            await cosmosDbRepository.Init();
 
-            string? key = ConfigurationManager.AppSettings["Key"];
-
-             _client = new CosmosClient(accountEndpoint, key);
-
-            DatabaseResponse database = await _client.CreateDatabaseIfNotExistsAsync(databaseName);
-
-            await database.Database.CreateContainerIfNotExistsAsync(containerName, "/id");
-
-            _container = _client.GetContainer(databaseName, containerName);
+            return;
         }
 
         public async Task SaveThomasAnderson()
@@ -38,28 +31,28 @@ namespace LifeSigns
             await SavePerson(GetRandomPersonDetails());
         }
 
-        private async Task SavePerson(Person personDetails)
+        private async Task SavePerson(Person person)
         {
             var ticks = DateTime.Now.Ticks.ToString();
             
-            Console.WriteLine($"saving {personDetails.Firstname} at {ticks}");
+            Console.WriteLine($"saving {person.Firstname} at {ticks}");
 
             try
             {
-                var response = await _container.ReadItemAsync<Person>(personDetails.Id, new PartitionKey(personDetails.Id));
+                var response = cosmosDbRepository.ReadItemAsync(person.Id);
 
                 if (response != null)
                 {
-                    var thomas = (Person)response.Resource;
+                    var thomas = (Person)response.Result;
 
                     thomas.Logins.Add(new Login { When = ticks });
 
-                    await _container.UpsertItemAsync<Person>(personDetails, new PartitionKey(personDetails.Id));
+                    await cosmosDbRepository.UpsertItemAsync(thomas);
                 }
             }
             catch (Exception)
             {
-                await _container.CreateItemAsync<Person>(personDetails, new PartitionKey(personDetails.Id));
+                await cosmosDbRepository.UpsertItemAsync(person);
             }
         }
 

@@ -10,16 +10,9 @@
 
                 var personSender = new PersonSender();
 
-                await personSender.InitCosmosDB();
+                await personSender.Init();
 
                 await personSender.SaveThomasAnderson();
-
-                await personSender.SaveThomasAnderson();
-
-                for (int i = 0; i < 100; i++)
-                {
-                    await personSender.SaveThomasAnderson();
-                }
 
                 //await new PersonSender().SaveRandomPerson();
             }
