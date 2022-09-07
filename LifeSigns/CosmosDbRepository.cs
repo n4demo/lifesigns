@@ -56,8 +56,5 @@ namespace LifeSigns
         {
             return await Container.ReadItemAsync<Person>(id, new PartitionKey(id));
         }
-
-
-
     }
 }
