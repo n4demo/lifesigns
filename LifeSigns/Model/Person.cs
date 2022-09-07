@@ -1,6 +1,6 @@
 ﻿using Newtonsoft.Json;
 
-namespace LifeSigns
+namespace LifeSigns.Model
 {
     public class Person
     {
@@ -19,8 +19,8 @@ namespace LifeSigns
         [JsonProperty(PropertyName = "contactDetails")]
         public List<ContactDetail> ContactDetails { get; set; }
 
-        [JsonProperty(PropertyName = "logins")]
-        public List<Login> Logins { get; set; }
+        [JsonProperty(PropertyName = "readings")]
+        public List<Readings> Readings { get; set; }
 
         public Person()
         {
@@ -28,7 +28,7 @@ namespace LifeSigns
 
             ContactDetails = new List<ContactDetail>();
 
-            Logins = new List<Login>();
+            Readings = new List<Readings>();
         }
     }
 

@@ -5,7 +5,7 @@ using System.Configuration;
 
 namespace LifeSigns
 {
-    internal class LifesignsSender
+    internal class LifesignsPublisher
     {
         private string? eventHubConnectionString;
 
@@ -19,7 +19,7 @@ namespace LifeSigns
 
         private bool enabled;
 
-        public LifesignsSender()
+        public LifesignsPublisher()
         {
             var enabledString = ConfigurationManager.AppSettings["enabled"];
 

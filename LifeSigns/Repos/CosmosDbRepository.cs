@@ -5,8 +5,9 @@ using System.Text;
 using System.Threading.Tasks;
 using Microsoft.Azure.Cosmos;
 using System.Configuration;
+using LifeSigns.Model;
 
-namespace LifeSigns
+namespace LifeSigns.Repos
 {
     internal class CosmosDbRepository
     {
@@ -17,7 +18,7 @@ namespace LifeSigns
         string? accountEndpoint;
 
         string? key;
-  
+
         public Container? Container { get; set; }
 
         private CosmosClient? client;
@@ -47,7 +48,7 @@ namespace LifeSigns
             return;
         }
 
-        public  async Task UpsertItemAsync(Person person)
+        public async Task UpsertItemAsync(Person person)
         {
             await Container.UpsertItemAsync<Person>(person, new PartitionKey(person.Id));
         }

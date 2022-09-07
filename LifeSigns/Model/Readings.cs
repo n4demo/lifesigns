@@ -31,7 +31,6 @@ namespace LifeSigns
             SpO2 = 97;
             Temperature = 37;
             When = DateTime.Now;
-            Id = "eyAQX05sz*6y8osoh&Ib#&6hD#F";
         }
 
     }

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using LifeSigns.Model;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -10,14 +11,14 @@ namespace LifeSigns
     {
         public Person GetThomas()
         {
-            Person personDetails = new Person
+            Person person = new Person
             {
                 Id = "1234567890",
                 Firstname = "Thomas",
                 LastName = "AnderSon"
             };
 
-            personDetails.Addresses.Add(
+            person.Addresses.Add(
                 new Address
                 {
                     Line1 = "100 Some Street",
@@ -28,7 +29,7 @@ namespace LifeSigns
                 }
             );
 
-            personDetails.ContactDetails.Add
+            person.ContactDetails.Add
                 (
                     new ContactDetail
                     {
@@ -39,15 +40,8 @@ namespace LifeSigns
                     }
                 );
 
-            personDetails.Logins.Add
-                (
-                    new Login
-                    {
-                        When = DateTime.Now.Ticks.ToString()
-                    }
-                );
-
-            return personDetails;
+  
+            return person;
         }
 
         public Person GetRandomPerson()
@@ -79,11 +73,6 @@ namespace LifeSigns
                         Extension = "5555"
 
                     }
-                );
-
-            person.Logins.Add
-                (
-                    new Login { When = DateTime.Now.ToLongDateString() }
                 );
 
             return person;

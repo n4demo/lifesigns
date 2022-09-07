@@ -1,15 +1,15 @@
-﻿using Microsoft.Azure.Cosmos;
-using System.Configuration;
+﻿using LifeSigns.Model;
+using LifeSigns.Repos;
 
 namespace LifeSigns
 {
-    internal class PersonSender
+    internal class PersonPublisher
     {
         private CosmosDbRepository? cosmosDbRepository;
 
         private PersonGenerator? personGenerator;
 
-        public PersonSender()
+        public PersonPublisher()
         {
             personGenerator = new PersonGenerator();
 
@@ -21,12 +21,14 @@ namespace LifeSigns
            cosmosDbRepository.Init();
         }
 
-        public async Task SaveThomasAnderson()
+        public async Task PublishThomasAnderson
+            ()
         {
             await SavePerson(personGenerator.GetThomas());
         }
 
-        public async Task SaveRandomPerson()
+        public async Task PublishRandomPerson
+            ()
         {
             await SavePerson(personGenerator.GetRandomPerson());
         }
@@ -43,7 +45,7 @@ namespace LifeSigns
 
                 if (currentPerson != null)
                 {
-                    currentPerson.Logins.Add(new Login { When = ticks });
+                    currentPerson.Readings.Add(new Readings { Id = currentPerson.Id });
 
                     await cosmosDbRepository.UpsertItemAsync(currentPerson);
                 }
@@ -57,7 +59,5 @@ namespace LifeSigns
                 throw;
             }
         }
-
-
     }
 }
