@@ -50,7 +50,7 @@ namespace LifeSigns.Repos
 
         public async Task UpsertItemAsync(Person person)
         {
-            await Container.UpsertItemAsync<Person>(person, new PartitionKey(person.Id));
+            await Container.UpsertItemAsync<Person>(person, new PartitionKey(person.Who));
         }
 
         public async Task<Person> ReadItemAsync(string id)

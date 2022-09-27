@@ -40,17 +40,17 @@ namespace LifeSigns
 
             try
             {
-                var currentPerson = await cosmosDbRepository.ReadItemAsync(person.Id);
+                var currentPerson = await cosmosDbRepository.ReadItemAsync(person.Who);
 
                 if (currentPerson != null)
                 {
-                    currentPerson.Readings.Add(new LifesignsReadings { Id = currentPerson.Id, Systolic = 120, DiaStolic = 80 });
+                    currentPerson.Readings.Add(new LifesignsReadings { Who = currentPerson.Who, Systolic = 120, DiaStolic = 80 });
 
                     await cosmosDbRepository.UpsertItemAsync(currentPerson);
                 }
                 else
                 {
-                    person.Readings.Add(new LifesignsReadings { Id = person.Id, , Systolic = 120, DiaStolic = 80 });
+                    person.Readings.Add(new LifesignsReadings { Who = currentPerson.Who, Systolic = 120, DiaStolic = 80 });
 
                     await cosmosDbRepository.UpsertItemAsync(person);
                 }

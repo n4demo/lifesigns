@@ -99,7 +99,7 @@ namespace LifeSigns
                 {
                     readings = GenerateReadings(readings);
 
-                    readings.Id = personGenerator.GetThomas().Id;
+                    readings.Who = personGenerator.GetThomas().Who;
 
                     string json = JsonConvert.SerializeObject(readings);
 

@@ -4,8 +4,11 @@ namespace LifeSigns.Model
 {
     public class Person
     {
-        [JsonProperty(PropertyName = "id")]
-        public string? Id { get; set; }
+        [JsonProperty(PropertyName = "who")]
+        public string? Who 
+        { 
+            get { return String.Format("{0}-{1}", Firstname, LastName).ToLower(); } 
+        }
 
         [JsonProperty(PropertyName = "firstName")]
         public string? Firstname { get; set; }

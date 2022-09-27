@@ -6,9 +6,9 @@
         {
             try
             {
-                await PublishPerson();
+                //await PublishPerson();
 
-                //await PublishLPersonSifeSigns();
+                await PublishLPersonSifeSigns();
 
             }
             catch (Exception ex)

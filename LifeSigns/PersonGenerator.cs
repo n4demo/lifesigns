@@ -13,7 +13,6 @@ namespace LifeSigns
         {
             Person person = new Person
             {
-                Id = "NHS-ID-12345",
                 Firstname = "Thomas",
                 LastName = "AnderSon"
             };
@@ -48,7 +47,6 @@ namespace LifeSigns
         {
             Person person = new Person
             {
-                Id = RandomString(),
                 Firstname = $"{RandomString()}",
                 LastName = $"{RandomString()}"
             };
