@@ -9,7 +9,6 @@
                 //await PublishPerson();
 
                 await PublishLPersonSifeSigns();
-
             }
             catch (Exception ex)
             {
@@ -21,9 +20,7 @@
         {
             var lifesignsPublisher = new LifesignsPublisher();
 
-
-            await lifesignsPublisher.PublishThomasAndersonLifeSigns();
-
+            await lifesignsPublisher.PublishLifeSigns();
 
             //await PublishPerson();
         }

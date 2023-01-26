@@ -8,7 +8,7 @@ namespace LifeSigns
         public DateTime When { get; set; }
 
         [JsonProperty(PropertyName = "who")]
-        public Who Who { get; set; }
+        public Who? Who { get; set; }
 
         [JsonProperty(PropertyName = "heartRate")]
         public int HeartRate { get; set; }
@@ -25,13 +25,18 @@ namespace LifeSigns
         [JsonProperty(PropertyName = "temperature")]
         public decimal Temperature { get; set; }
 
+        private Random random;
+
         public LifesignsReadings()
         {
-            HeartRate = 110;
-            SpO2 = 97;
+            random = new Random();
+            HeartRate = 120 + random.Next(0, 60) - 30;
+            SpO2 = 90 + random.Next(0, 10) ;
             Temperature = 37;
             When = DateTime.Now;
-            Who = new Who();
+            Who = new Who { FullName = "Jim Jones", UserId="12345454456"};
+            Systolic = 130 + random.Next(0, 30) - 15; ;
+            DiaStolic = 85 + random.Next(0, 20) - 10; ;
         }
     }
 
