@@ -34,7 +34,7 @@ namespace LifeSigns
             eventHubProducerClient = new EventHubProducerClient(eventHubConnectionString, eventHubName);
         }
 
-        private LifesignsReadings GenerateReadings(LifesignsReadings lifesignsreadings)
+        private LifesignsReadings EditReadings(LifesignsReadings lifesignsreadings)
         {
             var random = new Random();
 
@@ -97,9 +97,11 @@ namespace LifeSigns
 
                 while (true)
                 {
-                    readings = GenerateReadings(readings);
+                    readings = EditReadings(readings);
 
-                    readings.Who = personGenerator.GetThomas().Who;
+                    var person = personGenerator.GetThomas();
+
+                    readings.Who = new Who { FullName = person.Fullname, UserId = person.UserId };
 
                     string json = JsonConvert.SerializeObject(readings);
 

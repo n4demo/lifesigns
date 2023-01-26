@@ -8,7 +8,7 @@ namespace LifeSigns
         public DateTime When { get; set; }
 
         [JsonProperty(PropertyName = "who")]
-        public string? Who { get; set; }
+        public Who Who { get; set; }
 
         [JsonProperty(PropertyName = "heartRate")]
         public int HeartRate { get; set; }
@@ -31,7 +31,16 @@ namespace LifeSigns
             SpO2 = 97;
             Temperature = 37;
             When = DateTime.Now;
+            Who = new Who();
         }
+    }
 
+    public class Who
+    {
+        [JsonProperty(PropertyName = "fullName")]
+        public string? FullName { get; set; }
+
+        [JsonProperty(PropertyName = "userId")]
+        public string? UserId { get; set; }
     }
 }

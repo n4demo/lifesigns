@@ -25,7 +25,7 @@
             await lifesignsPublisher.PublishThomasAndersonLifeSigns();
 
 
-            await PublishPerson();
+            //await PublishPerson();
         }
 
        static async Task PublishPerson()
