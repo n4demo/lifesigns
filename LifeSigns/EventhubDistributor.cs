@@ -17,19 +17,19 @@ namespace LifeSigns
             };
         }
 
-        public async Task Post(LifesignsReadings readings)
+        public async Task Post(LifesignsReadings lifesignsReadings)
         {
             foreach (var eventHubProducerClient in eventHubProducerClients)
             {
                 try
                 {
-                    ValueTask<EventDataBatch>? eventDataBatch = eventHubProducerClient.CreateBatchAsync();
-
-                    string json = JsonConvert.SerializeObject(readings);
+                    string json = JsonConvert.SerializeObject(lifesignsReadings);
 
                     Console.WriteLine(json);
 
                     var eventData = new EventData(json);
+
+                    ValueTask<EventDataBatch>? eventDataBatch = eventHubProducerClient.CreateBatchAsync();
 
                     await eventHubProducerClient.SendAsync(eventDataBatch.Value.Result);
                 }

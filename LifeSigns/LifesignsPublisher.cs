@@ -14,16 +14,15 @@ namespace LifeSigns
             eventhubDistributor = new EventhubDistributor();
         }
 
-
         public async Task PublishLifeSigns()
         {          
-            var lifesignsReadings = new LifesignsReadings();
-
             while (true)
             {
+                var lifesignsReadings = new LifesignsReadings();
+
                 await eventhubDistributor.Post(lifesignsReadings);
 
-                Thread.Sleep(10000);
+                Thread.Sleep(5000);
             }
         }
     }

@@ -32,7 +32,7 @@ namespace LifeSigns
             random = new Random();
             HeartRate = 120 + random.Next(0, 60) - 30;
             SpO2 = 90 + random.Next(0, 10) ;
-            Temperature = 37;
+            Temperature = 36 + random.Next(0, 2) ;
             When = DateTime.Now;
             Who = new Who { FullName = "Jim Jones", UserId="12345454456"};
             Systolic = 130 + random.Next(0, 30) - 15; ;

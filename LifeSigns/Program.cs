@@ -6,9 +6,11 @@
         {
             try
             {
-                //await PublishPerson();
+                var lifesignsPublisher = new LifesignsPublisher();
 
-                await PublishLPersonSifeSigns();
+                await lifesignsPublisher.PublishLifeSigns();
+
+                //await PublishPerson();
             }
             catch (Exception ex)
             {
@@ -16,14 +18,6 @@
             }
         }
 
-        static async Task PublishLPersonSifeSigns()
-        {
-            var lifesignsPublisher = new LifesignsPublisher();
-
-            await lifesignsPublisher.PublishLifeSigns();
-
-            //await PublishPerson();
-        }
 
        static async Task PublishPerson()
         {

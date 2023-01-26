@@ -21,8 +21,7 @@ namespace LifeSigns
            await cosmosDbRepository.Init();
         }
 
-        public async Task PublishThomasAnderson
-            ()
+        public async Task PublishThomasAnderson()
         {
             await SavePerson(personGenerator.GetThomas());
         }
