@@ -30,7 +30,7 @@ namespace LifeSigns
         public LifesignsReadings()
         {
             random = new Random();
-            HeartRate = 120 + random.Next(0, 60) - 30;
+            HeartRate = 60 + random.Next(0, 120);
             SpO2 = 90 + random.Next(0, 10) ;
             Temperature = 36 + random.Next(0, 2) ;
             When = DateTime.Now;
