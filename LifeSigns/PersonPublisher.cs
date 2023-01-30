@@ -5,9 +5,9 @@ namespace LifeSigns
 {
     internal class PersonPublisher
     {
-        private CosmosDbRepository? cosmosDbRepository;
+        private CosmosDbRepository cosmosDbRepository;
 
-        private PersonGenerator? personGenerator;
+        private PersonGenerator personGenerator;
 
         public PersonPublisher()
         {

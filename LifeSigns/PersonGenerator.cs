@@ -9,6 +9,23 @@ namespace LifeSigns
 {
     internal class PersonGenerator
     {
+        private static Random random = new Random();
+
+        private static string RandomString()
+        {
+            return RandomString(6);
+        }
+
+        private static string RandomString(int length)
+        {
+            const string chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+
+            var mystring = new string(Enumerable.Repeat(chars, length)
+                .Select(s => s[random.Next(s.Length)]).ToArray());
+
+            return mystring.ToLower();
+        }
+
         public Person GetThomas()
         {
             Person person = new Person
@@ -76,21 +93,6 @@ namespace LifeSigns
             return person;
         }
 
-        private static Random random = new Random();
 
-        private static string RandomString()
-        {
-            return RandomString(6);
-        }
-
-        private static string RandomString(int length)
-        {
-            const string chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
-
-            var mystring = new string(Enumerable.Repeat(chars, length)
-                .Select(s => s[random.Next(s.Length)]).ToArray());
-
-            return mystring.ToLower();
-        }
     }
 }

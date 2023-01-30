@@ -19,9 +19,9 @@ namespace LifeSigns.Repos
 
         string? key;
 
-        public Container? Container { get; set; }
+        public Container Container { get; set; }
 
-        private CosmosClient? client;
+        private CosmosClient client;
 
         public CosmosDbRepository()
         {
