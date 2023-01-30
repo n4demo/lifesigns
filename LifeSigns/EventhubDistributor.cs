@@ -21,17 +21,22 @@ namespace LifeSigns
         {
             foreach (var eventHubProducerClient in eventHubProducerClients)
             {
+                var eventDataBatch = eventHubProducerClient.CreateBatchAsync();
+
+                string json = JsonConvert.SerializeObject(lifesignsReadings);
+
+                var eventData = new EventData(json);
+
                 try
                 {
-                    string json = JsonConvert.SerializeObject(lifesignsReadings);
+                    if (!eventDataBatch.Result.TryAdd(eventData))
+                    {
+                        throw new Exception($"Event is too large for the batch and cannot be sent.");
+                    }
+
+                    await eventHubProducerClient.SendAsync(eventDataBatch.Result);
 
                     Console.WriteLine(json);
-
-                    var eventData = new EventData(json);
-
-                    ValueTask<EventDataBatch>? eventDataBatch = eventHubProducerClient.CreateBatchAsync();
-
-                    await eventHubProducerClient.SendAsync(eventDataBatch.Value.Result);
                 }
                 catch (Exception ex)
                 {
