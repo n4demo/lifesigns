@@ -13,7 +13,7 @@ namespace LifeSigns
             eventHubProducerClients = new List<EventHubProducerClient>
             {
                 new EventHubProducerClient(
-                    "Endpoint=sb://h4u-use-ehns-lifesigns.servicebus.windows.net/;SharedAccessKeyName=pol-lifesigns;SharedAccessKey=RCRqt4ZbEOE5ucXUooqTYIVBFT5wlGa7P4AqHOIZJAg=;EntityPath=evh-lifesigns", "evh-lifesigns")
+                    "Endpoint=sb://h4u-use-ehns-lifesigns-nigel.servicebus.windows.net/;SharedAccessKeyName=pol-lifesigns;SharedAccessKey=HdSzcmhyJqncHIvmnEYaWNkznXi+gpQUuVno4COaiRc=;EntityPath=eh-lifesigns-nigel", "eh-lifesigns-nigel")
             };
         }
 

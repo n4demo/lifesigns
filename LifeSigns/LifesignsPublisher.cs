@@ -22,7 +22,7 @@ namespace LifeSigns
 
                 await eventhubDistributor.Post(lifesignsReadings);
 
-                Thread.Sleep(5000);
+                Thread.Sleep(1000);
             }
         }
     }
